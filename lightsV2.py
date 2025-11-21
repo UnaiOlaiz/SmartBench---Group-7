@@ -27,11 +27,11 @@ def modo_fiesta():
 		(0, 0, 255),
 		(255, 255, 0)
 	]
-        for r, g, b in colors:
+	for r, g, b in colors:
 		for i in range(num_leds):
-			led_strip.setPixelColor(i, Color(0, 0, 50))
-	        led_strip.show()
-		time.sleep(0.1)
+			led_strip.setPixelColor(i, Color(r, g , b))
+		led_strip.show()
+		time.sleep(0.5)
 
 def notificacion():
 	#flash
