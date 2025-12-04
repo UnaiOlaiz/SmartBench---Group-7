@@ -6,7 +6,7 @@ THINGSPEAK_API_KEY = "BCMTU7TODBUUTP93"
 THINGSPEAK_URL = "https://api.thingspeak.com/update"
 
 BUTTON_PORT = 5
-UPLOAD_INTERVAL = 15  # seconds
+UPLOAD_INTERVAL = 1  # seconds
 
 # Use Grove GPIO
 button = GPIO(BUTTON_PORT, GPIO.IN)
@@ -28,7 +28,6 @@ if __name__ == "__main__":
     try:
         while True:
             raw = button.read()
-            # RED LED Button logic: HIGH = pressed, LOW = released
             pressed = 1 if raw == 1 else 0  
 
             print("Button state:", pressed)
