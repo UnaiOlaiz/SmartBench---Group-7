@@ -44,6 +44,6 @@ def notificacion():
 if __name__ == '__main__':
 	try:
 		while True:
-			modo_fiesta()
+			modo_tranquilo()
 	except KeyboardInterrupt:
 		apagar_luces()

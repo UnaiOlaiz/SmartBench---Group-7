@@ -1,23 +1,21 @@
 import time
 import requests
-import subprocess
 from grove.gpio import GPIO
+import subprocess
+import os
 
 THINGSPEAK_API_KEY = "BCMTU7TODBUUTP93"
 THINGSPEAK_URL = "https://api.thingspeak.com/update"
-UPLOAD_INTERVAL = 1   # seconds
+UPLOAD_INTERVAL = 1  # seconds
 
 BUTTON_PORT = 5
 button = GPIO(BUTTON_PORT, GPIO.IN)
 
-def notificacion():
-    subprocess.Popen(["sudo", "/home/admin/SmartBench---Group-7/env/bin/python", "notif_flash.py"])
+def trigger_notification():
+    open("/tmp/notify_leds", "w").close()
 
 def send_to_thingspeak(value):
-    data = {
-        "api_key": THINGSPEAK_API_KEY,
-        "field1": value
-    }
+    data = {"api_key": THINGSPEAK_API_KEY, "field1": value}
     try:
         response = requests.post(THINGSPEAK_URL, data=data, timeout=5)
         print(f"ThingSpeak → {value} | Response: {response.text}")
@@ -27,7 +25,7 @@ def send_to_thingspeak(value):
 if __name__ == "__main__":
     print("Button controller running...")
 
-    sending = False  
+    sending = False  # Tracks if the button is still being pressed
 
     try:
         while True:
@@ -37,14 +35,17 @@ if __name__ == "__main__":
             if pressed and not sending:
                 print("Button pressed → START actions")
 
-                notificacion()
+                trigger_notification()
 
                 subprocess.run(["sudo", "systemctl", "start", "raspotify"])
 
                 sending = True
 
             if not pressed and sending:
-                print("Button released → STOP sending")
+                print("Button released → STOP actions")
+
+                subprocess.run(["sudo", "systemctl", "stop", "raspotify"])
+
                 sending = False
 
             if sending:
@@ -56,3 +57,4 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         print("Button controller stopped.")
+

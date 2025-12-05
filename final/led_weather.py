@@ -1,5 +1,6 @@
 import time
 import datetime
+import os
 from influxdb_client import InfluxDBClient
 from grove.grove_ws2813_rgb_led_strip import GroveWS2813RgbStrip
 from rpi_ws281x import Color
@@ -11,7 +12,7 @@ INFLUX_BUCKET = "weather"
 
 PIN = 18
 NUM_LEDS = 10
-TEMP_THRESHOLD = 8
+TEMP_THRESHOLD = 10
 
 led_strip = GroveWS2813RgbStrip(PIN, NUM_LEDS)
 
@@ -32,6 +33,16 @@ def modo_fiesta():
             led_strip.setPixelColor(i, Color(r, g, b))
         led_strip.show()
         time.sleep(0.25)
+
+def notificacion():
+    for i in range(NUM_LEDS):
+        led_strip.setPixelColor(i, Color(255, 255, 255))
+    led_strip.show()
+    time.sleep(0.2)
+
+    for i in range(NUM_LEDS):
+        led_strip.setPixelColor(i, Color(0, 0, 0))
+    led_strip.show()
 
 def get_latest_temperature():
     query_api = client.query_api()
@@ -60,10 +71,15 @@ client = InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG)
 
 if __name__ == "__main__":
     print("LED controller running...")
-    
+
     while True:
+
+        if os.path.exists("/tmp/notify_leds"):
+            notificacion()
+            os.remove("/tmp/notify_leds")
+
         day = datetime.datetime.today().weekday()
-        if day in (4, 5):  # Friday or Saturday
+        if day in (4, 5):
             modo_fiesta()
             continue
 
