@@ -6,7 +6,7 @@ import os
 
 THINGSPEAK_API_KEY = "BCMTU7TODBUUTP93"
 THINGSPEAK_URL = "https://api.thingspeak.com/update"
-UPLOAD_INTERVAL = 1  # seconds
+UPLOAD_INTERVAL = 15  # 15s interval to respect API limits
 
 BUTTON_PORT = 5
 button = GPIO(BUTTON_PORT, GPIO.IN)
@@ -17,44 +17,39 @@ def trigger_notification():
 def send_to_thingspeak(value):
     data = {"api_key": THINGSPEAK_API_KEY, "field1": value}
     try:
-        response = requests.post(THINGSPEAK_URL, data=data, timeout=5)
-        print(f"ThingSpeak → {value} | Response: {response.text}")
+        requests.post(THINGSPEAK_URL, data=data, timeout=2)
     except Exception as e:
         print("ThingSpeak Error:", e)
 
 if __name__ == "__main__":
-    print("Button controller running...")
-
-    sending = False  # Tracks if the button is still being pressed
+    print("Button controller running (Fast Response)...")
+    sending = False
+    last_upload = 0
 
     try:
         while True:
-            raw = button.read()
-            pressed = (raw == 1)
+            pressed = (button.read() == 1)
+            now = time.time()
 
+            # 1. Instant Button Logic
             if pressed and not sending:
-                print("Button pressed → START actions")
-
+                print("Button pressed -> START actions")
                 trigger_notification()
-
                 subprocess.run(["sudo", "systemctl", "start", "raspotify"])
-
                 sending = True
-
+            
             if not pressed and sending:
-                print("Button released → STOP actions")
-
+                print("Button released -> STOP actions")
                 subprocess.run(["sudo", "systemctl", "stop", "raspotify"])
-
                 sending = False
 
-            if sending:
-                send_to_thingspeak(1)
-            else:
-                send_to_thingspeak(0)
+            # 2. Upload Logic (Timer based, non-blocking)
+            if now - last_upload > UPLOAD_INTERVAL:
+                if sending: send_to_thingspeak(1)
+                else: send_to_thingspeak(0)
+                last_upload = now
 
-            time.sleep(UPLOAD_INTERVAL)
+            time.sleep(0.05) # Tiny sleep = Fast response
 
     except KeyboardInterrupt:
-        print("Button controller stopped.")
-
+        print("Stopped.")
