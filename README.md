@@ -1,29 +1,27 @@
 # SmartBench – IoT project
-
-## Overview
-SmartBench (FriendBench-Deusto) is an IoT-based interactive bench designed to encourage social interaction in university spaces. The bench reacts to user presence and environmental conditions using LED lighting and music, while collecting anonymous usage data for visualization.
 This project is developed as the final assignment of the IoT course and builds upon the initial IoT Challenge proposal.
 
+## Overview
+Smartbench is the final project for our IoT subject for this course, for which we have created an intelligent bench with an integrated RaspberryPi to encourage social cohesion around university campuses and social areas using the latest 4.0 technology. Having a futuristic and appealing design, our bench will be reactive to human interaction through tools such as databases in the cloud, API interactions, and many more sensors and actuators.
+
 ## Features
-- Button-based interaction (presence simulation)
-- Ambient light detection (day/night awareness)
+- Button-based interaction
 - RGB LED feedback
-- Bluetooth / Spotify audio playback
+- Spotify music playback (not working now)
 - Data upload to ThingSpeak
-- Automatic startup on Raspberry Pi boot
 
 ## Hardware
-- Raspberry Pi
+- Raspberry Pi + groove base hat
 - Button (GPIO)
 - RGB LED bar
-- Bluetooth speaker
+- Speaker
 
 ## Software & Technologies
 - Python 3
 - Bash scripting
 - ThingSpeak (HTTP API)
-- Spotify control (Raspotify / external device)
-- Linux (crontab / systemd)
+- Spotify control with Raspotify
+- Linux 
 
 ## Repository Structure
 ├── audio_manager.py        # Audio & Spotify control
@@ -39,7 +37,7 @@ This project is developed as the final assignment of the IoT course and builds u
 └── README.md
 
 ## How It Works
-1. The system starts automatically on boot.
+1. 
 2. Ambient light is checked to determine activation.
 3. When the button is pressed:
 4. LEDs turn on
@@ -48,12 +46,8 @@ This project is developed as the final assignment of the IoT course and builds u
 7. Usage data is visualized on ThingSpeak dashboards.
 
 ## Documentation
-- Full documentation is available in the GitHub Wiki, including:
-  - Architecture
-  - File-by-file explanation
-  - Deployment
-  - Dashboards
-  - Replication guide
+- Full documentation is available in the GitHub <a href="https://github.com/UnaiOlaiz/SmartBench---Group-7/wiki">Wiki.
+
 
 ## Team – Group 7
 Matěj Zýka
