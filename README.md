@@ -24,36 +24,42 @@ Smartbench is the final project for our IoT subject for this course, for which w
 - Linux 
 
 ## Repository Structure
-├── audio_manager.py        # Audio & Spotify control
-├── buttonThingSpeak.py     # Button logic + ThingSpeak upload
-├── light_sensor.py         # Ambient light detection
-├── lightsV2.py             # RGB LED control (final version)
-├── weatherleds.py          # External weather-based LED logic
-├── bluez-alsa/             # Bluetooth audio support
-├── start_cli.sh            # System startup script
-├── stop_smartbench.sh      # Safe shutdown script
-├── spotify-control.sh      # Spotify playback control
-├── wake_sony.sh            # Bluetooth speaker wake-up
-└── README.md
-
-## How It Works
-1. 
-2. Ambient light is checked to determine activation.
-3. When the button is pressed:
-4. LEDs turn on
-5. Music starts playing
-6. Event is sent to ThingSpeak
-7. Usage data is visualized on ThingSpeak dashboards.
+```bash
+├── bluez-alsa
+├── final
+│   ├── button_control.py
+│   ├── influxdata-archive_compat.key
+│   ├── led_weather.py
+│   ├── notif_flash.py
+│   ├── weather_influx.py
+│   └── voice_control.py
+├── grove.py
+├── old
+│   ├── audio_manager.py
+│   ├── button.log
+│   ├── buttonThingSpeak.py.viejo
+│   ├── cron.log
+│   ├── led.log
+│   ├── light_sensor.py
+│   ├── lights.py
+│   ├── lightsV2.py.viejo
+│   ├── trial.txt
+│   ├── wake_sony.sh
+│   ├── weatherleds.py
+│   └── weather.log
+├── __pycache__
+│   └── lightsV2.cpython-313.pyc
+├── README.md
+├── spotify-control.sh
+├── start_cli.sh
+└── stop_smartbench.sh
+```
 
 ## Documentation
-- Full documentation is available in the GitHub <a href="https://github.com/UnaiOlaiz/SmartBench---Group-7/wiki">Wiki.
+- Full documentation is available here <a href="https://github.com/UnaiOlaiz/SmartBench---Group-7/wiki">GithubWiki.
 
 
 ## Team – Group 7
-Matěj Zýka
-Aitor
-Unai
-
-License
-
-Academic project – University of Deusto
+- Matěj Zýka
+- Aitor Goitia
+- Unai Olaizola
